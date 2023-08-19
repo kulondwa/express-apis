@@ -51,4 +51,13 @@ router.put("/:id", (req, res) => {
   }
 });
 
+// delete a user
+router.delete("/:id", (req, res) => {
+  const found = users.find((user) => user.id === parseInt(req.params.id));
+  if (found) {
+    users = users.filter((user) => user.id !== parseInt(req.params.id));
+    res.json({ msg: "user has been deleted", users });
+  }
+});
+
 module.exports = router;
