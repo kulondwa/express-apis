@@ -18,7 +18,7 @@ router.get("/:id", (req, res) => {
   }
 });
 
-// add a new user
+// add a new user if the user doesn't exist in the system
 router.post("/", (req, res) => {
   const newUser = {
     id: uuid.v4(),
@@ -33,6 +33,21 @@ router.post("/", (req, res) => {
   } else {
     users.push(newUser);
     res.json(users);
+  }
+});
+
+// update a user
+router.put("/:id", (req, res) => {
+  const found = users.find((user) => user.id === parseInt(req.params.id));
+  const updatedUser = req.body;
+  if (found) {
+    users.map((user) => {
+      if (user.id === parseInt(req.params.id)) {
+        user.name = updatedUser.name ? updatedUser.name : user.name;
+        user.mail = updatedUser.mail ? updatedUser.mail : user.mail;
+        res.json({ msg: "user updated", user });
+      }
+    });
   }
 });
 
