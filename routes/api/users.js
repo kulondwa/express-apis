@@ -10,11 +10,29 @@ router.get("/", (req, res) => {
 
 // get user by ID
 router.get("/:id", (req, res) => {
-  const found = users.some((user) => user.id === parseInt(req.params.id));
+  const found = users.find((user) => user.id === parseInt(req.params.id));
   if (found) {
     res.json(users.filter((user) => user.id === parseInt(req.params.id)));
   } else {
     res.sendStatus(400);
+  }
+});
+
+// add a new user
+router.post("/", (req, res) => {
+  const newUser = {
+    id: uuid.v4(),
+    name: req.body.name,
+    mail: req.body.mail,
+  };
+
+  const findUser = users.find((user) => user.mail === newUser.mail);
+
+  if (!newUser.name || !newUser.mail || findUser) {
+    res.sendStatus(400);
+  } else {
+    users.push(newUser);
+    res.json(users);
   }
 });
 
