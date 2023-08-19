@@ -3,8 +3,10 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+// api for user
 app.use("/api/users", require("./routes/api/users"));
+
+//api for movies
 app.use("/api/movies", require("./routes/api/movies"));
 
 app.listen(port, () => {
