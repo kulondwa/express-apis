@@ -46,7 +46,7 @@ router.post("/", (req, res) => {
   }
 });
 
-//update a move
+//update a movie
 router.put("/:id", (req, res) => {
   const updatedMovie = req.body;
   const found = movies.find((movie) => movie.id === parseInt(req.params.id));
@@ -72,6 +72,21 @@ router.put("/:id", (req, res) => {
     });
   } else {
     res.json({ message: "item not found", status: 400 });
+  }
+});
+
+// delete a movie
+router.delete("/:id", (req, res) => {
+  const found = movies.find((movie) => movie.id === parseInt(req.params.id));
+  if (found) {
+    movies = movies.filter((movie) => movie.id !== parseInt(req.params.id));
+    res.json({
+      message: "item has been successfully deleted",
+      status: 200,
+      content: movies,
+    });
+  } else {
+    res.sendStatus(400);
   }
 });
 

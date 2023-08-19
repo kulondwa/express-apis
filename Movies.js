@@ -28,6 +28,7 @@ const movies = [
     url: "https://www.imdb.com/title/tt0110912/",
   },
   {
+    id: 5,
     movieTitle: "Schindler's List",
     director: "Steven Spielberg",
     releaseDate: "1993-12-15",
