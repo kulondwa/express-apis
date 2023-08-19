@@ -14,7 +14,7 @@ router.get("/:id", (req, res) => {
   if (found) {
     res.json(users.filter((user) => user.id === parseInt(req.params.id)));
   } else {
-    res.sendStatus(400);
+    res.status(400).send("user not found");
   }
 });
 

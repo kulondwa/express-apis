@@ -46,4 +46,33 @@ router.post("/", (req, res) => {
   }
 });
 
+//update a move
+router.put("/:id", (req, res) => {
+  const updatedMovie = req.body;
+  const found = movies.find((movie) => movie.id === parseInt(req.params.id));
+  if (found) {
+    movies.map((movie) => {
+      if (movie.id === parseInt(req.params.id)) {
+        movie.director = updatedMovie.director
+          ? updatedMovie.director
+          : movie.director;
+        movie.releaseDate = updatedMovie.releaseDate
+          ? updatedMovie.releaseDate
+          : movie.releaseDate;
+        movie.movieTitle = updatedMovie.movieTitle
+          ? updatedMovie.movieTitle
+          : movie.movieTitle;
+        movie.url = updatedMovie.url ? updatedMovie.url : movie.url;
+        res.json({
+          message: "the movie has been successfully updated",
+          status: 200,
+          movie,
+        });
+      }
+    });
+  } else {
+    res.json({ message: "item not found", status: 400 });
+  }
+});
+
 module.exports = router;
