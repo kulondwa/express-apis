@@ -46,6 +46,22 @@ router.post("/", (req, res) => {
   }
 });
 
+// add more than one movie
+router.post("/whole", (req, res) => {
+  const newMovies = req.body;
+  const found = movies.find(
+    (movie) =>
+      movie.movieTitle ===
+      newMovies.map((newMovie) => newMovie.movieTitle.toString())
+  );
+  if (!newMovies || found) {
+    res.json({ message: "one of the item exist in the system", status: 400 });
+  } else {
+    movies = movies.concat(newMovies);
+    res.json({ message: "successful operation", status: 200, content: movies });
+  }
+});
+
 //update a movie
 router.put("/:id", (req, res) => {
   const updatedMovie = req.body;
