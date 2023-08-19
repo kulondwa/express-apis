@@ -25,4 +25,25 @@ router.get("/:movieTitle", (req, res) => {
   }
 });
 
+// add a new movie
+router.post("/", (req, res) => {
+  const newMovie = {
+    id: uuid.v4(),
+    movieTitle: req.body.movieTitle,
+    director: req.body.director,
+    releaseDate: req.body.releaseDate,
+    url: req.body.url,
+  };
+
+  const found = movies.find(
+    (movie) => movie.movieTitle === newMovie.movieTitle.toString()
+  );
+  if (!newMovie.movieTitle || !newMovie.url || found) {
+    res.sendStatus(400);
+  } else {
+    movies.push(newMovie);
+    res.json({ message: "successfull operation", code: 200, movies });
+  }
+});
+
 module.exports = router;
