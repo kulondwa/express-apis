@@ -9,7 +9,7 @@ app.use("/api/users", require("./routes/api/users"));
 //api for movies
 app.use("/api/movies", require("./routes/api/movies"));
 
-app.use("/authetification", require("./routes/api/jwt"));
+app.use("/api/authentification", require("./routes/api/jwt"));
 
 app.listen(port, () => {
   console.log(`the server listens to the port ${port}`);
