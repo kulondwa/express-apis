@@ -7,7 +7,28 @@ router.get("/", (req, res) => {
   res.json({ message: "hello there !" });
 });
 
-router.post("/posts", (req, res) => {
+const verifyToken = (req, res, next) => {
+  const bearHeader = req.headers["authorization"];
+  if (bearHeader !== undefined) {
+    const bearToken = bearHeader.split(" ")[1];
+    req.token = bearToken;
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+};
+
+router.post("/posts", verifyToken, (req, res) => {
+  jwt.verify(req.token, "secretKey", (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      res.json({
+        message: "successful operation",
+        authData,
+      });
+    }
+  });
   res.json({ message: "posts created !" });
 });
 
