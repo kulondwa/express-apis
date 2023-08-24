@@ -58,3 +58,7 @@ router.get("/list", (req, res) => {
     }
   });
 });
+
+router.get("/:id", (req, res) => {
+  Student.findById(req.params.id, (req, doc) => {});
+});
