@@ -13,7 +13,7 @@ exports.createBook = async (req, res) => {
 //get all books
 exports.getAllBooks = async (req, res) => {
   try {
-    const books = booksServices.getAllBooks();
+    const books = booksServices.getAllBooks({}).toArray();
     res.json({ data: books, status: "success" });
   } catch (err) {
     res.status(500).json({ message: err.message });

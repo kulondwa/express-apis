@@ -7,7 +7,7 @@ exports.createBook = async (book) => {
 
 // get all books
 exports.getAllBooks = async () => {
-  return await booksModal.find();
+  return await booksModal.find({});
 };
 
 // update a book

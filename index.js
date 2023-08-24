@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //mongoDB connection
-const db = mongoose.connect("mongodb://localhost:27017/library", {
+const db = mongoose.connect("mongodb://localhost:27017/libraryDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -30,3 +30,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+module.exports = db;

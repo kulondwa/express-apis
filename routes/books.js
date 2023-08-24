@@ -6,7 +6,7 @@ const {
   updateBook,
   deleteBookById,
 } = require("../controllers/book");
-router.route("/book").get(getAllBooks).post(createBook);
-router.route("/book/:id").put(updateBook).delete(deleteBookById);
+router.route("/").get(getAllBooks).post(createBook);
+router.route("/:id").put(updateBook).delete(deleteBookById);
 
 module.exports = router;

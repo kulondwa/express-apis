@@ -7,7 +7,7 @@ exports.createAuthor = async (author) => {
 
 //get all authors
 exports.getAllAuthors = async () => {
-  return await authorModal.find();
+  return await authorModal.find({});
 };
 
 // update an author

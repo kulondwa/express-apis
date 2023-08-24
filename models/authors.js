@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-const uuid = import("uuid");
+const uuid = require("uuid");
 
 const authorSchema = new Schema({
+  id: {
+    type: String,
+    default: uuid.v4(),
+  },
   name: String,
   age: Number,
   email: String,

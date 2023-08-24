@@ -13,8 +13,8 @@ exports.createAuthor = async (req, res) => {
 // get all authors
 exports.getAllAuthors = async (req, res) => {
   try {
-    const authors = authorServices.getAllAuthors();
-    res.jon({ data: authors, status: "success" });
+    const authors = (await authorServices.getAllAuthors()).toString();
+    res.json({ data: authors, status: "success" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
