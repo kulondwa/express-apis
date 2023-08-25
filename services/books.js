@@ -9,9 +9,13 @@ exports.createBook = async (book) => {
 exports.getAllBooks = async () => {
   return await booksModal.find({});
 };
-
+//find book by the id
 exports.findById = async (id) => {
   return await booksModal.findById(id);
+};
+
+exports.findByTitle = async (title) => {
+  return await booksModal.find({ title: title });
 };
 // update a book
 exports.updateBook = async (id, book) => {

@@ -27,6 +27,19 @@ exports.getAllBooks = async (req, res) => {
   }
 };
 
+// get book by title
+exports.getBookByTitle = async (req, res) => {
+  booksServices
+    .findByTitle(req.body.title)
+    .then((book) => {
+      res.json({ data: book, message: "success" });
+    })
+    .catch((err) => {
+      // res.json({ message: err.message, err: err });
+      console.log(err);
+    });
+};
+
 // update a book
 exports.updateBook = async (req, res) => {
   if (booksServices.updateBook({ _id: req.body._id }, req.body)) {
