@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const methodOverride = require("express-method-override");
+const bodyparser = require("body-parser");
+
 const port = 8000;
 var app = express();
 
@@ -7,6 +10,9 @@ var app = express();
 app.use(express.json());
 //urlencoded usage
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride());
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 
 //mongoDB connection
 const db = mongoose.connect("mongodb://localhost:27017/libraryDB", {

@@ -10,9 +10,12 @@ exports.getAllBooks = async () => {
   return await booksModal.find({});
 };
 
+exports.findById = async (id) => {
+  return await booksModal.findById(id);
+};
 // update a book
 exports.updateBook = async (id, book) => {
-  return await booksModal.findByIdAndUpdate(id, book);
+  return await booksModal.findByIdAndUpdate(id, book, { new: true });
 };
 
 // delete a book

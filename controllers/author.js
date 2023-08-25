@@ -13,8 +13,16 @@ exports.createAuthor = async (req, res) => {
 // get all authors
 exports.getAllAuthors = async (req, res) => {
   try {
-    const authors = (await authorServices.getAllAuthors()).toString();
-    res.json({ data: authors, status: "success" });
+    const authors = await authorServices.getAllAuthors();
+    const authorsArray = authors.map((author) => {
+      return {
+        id: author.id,
+        name: author.name,
+        email: author.email,
+        age: author.age,
+      };
+    });
+    res.json({ data: authorsArray, status: "success" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -22,11 +30,15 @@ exports.getAllAuthors = async (req, res) => {
 
 // update an author
 exports.updateAuthor = async (req, res) => {
-  try {
-    const updatedAuthor = authorServices.updateAuhtor(req.params.id, req.body);
-    res.json({ data: updatedAuthor, status: "success" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  if (authorServices.updateAuhtor({ _id: req.body._id }, req.body)) {
+    const updatedAuhtor = authorServices
+      .getAuthorById({ _id: req.body._id })
+      .then((author) => {
+        res.json({ data: author, message: "success" });
+      })
+      .catch((err) => {
+        res.json({ message: err.message, err: err });
+      });
   }
 };
 

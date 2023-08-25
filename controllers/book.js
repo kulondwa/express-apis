@@ -13,8 +13,15 @@ exports.createBook = async (req, res) => {
 //get all books
 exports.getAllBooks = async (req, res) => {
   try {
-    const books = booksServices.getAllBooks({}).toArray();
-    res.json({ data: books, status: "success" });
+    const books = booksServices.getAllBooks({});
+    const booksArray = (await books).map((book) => {
+      return {
+        id: book.id,
+        title: book.title,
+        topic: book.topic,
+      };
+    });
+    res.json({ data: booksArray, status: "success" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -22,20 +29,31 @@ exports.getAllBooks = async (req, res) => {
 
 // update a book
 exports.updateBook = async (req, res) => {
-  try {
-    const updatedBook = booksServices.updateBook(req.params.id, req.body);
-    res.json({ data: updatedBook, status: "success" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  if (booksServices.updateBook({ _id: req.body._id }, req.body)) {
+    const updatedBook = booksServices
+      .findById({ _id: req.body._id })
+      .then((book) => {
+        res.json({ data: book, status: "success" });
+      })
+      .catch((err) => {
+        return err;
+      });
   }
 };
 
 // delete a book
 exports.deleteBookById = async (req, res) => {
-  try {
-    const deletedBook = booksServices.deleteBook(req.params.id);
-    res.json({ data: deletedBook, status: "success" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  const findBook = booksServices.findById({ _id: req.body.id });
+  if (findBook) {
+    booksServices
+      .deleteBook({ _id: req.body.id })
+      .then((book) => {
+        res.json({ data: book, message: "successfully deleted" });
+      })
+      .catch((err) => {
+        res.json({ message: err.message, err: err });
+      });
+  } else {
+    res.json({ message: "not found", status: 404 });
   }
 };

@@ -7,6 +7,7 @@ const {
 } = require("../controllers/author");
 var router = express.Router();
 router.route("/").get(getAllAuthors).post(createAuthor);
-router.route("/:id").delete(deleteAuthor).put(updateAuthor);
+router.route("/").delete(deleteAuthor);
+router.route("/").put(updateAuthor);
 
 module.exports = router;

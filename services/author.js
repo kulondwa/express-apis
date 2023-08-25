@@ -10,9 +10,14 @@ exports.getAllAuthors = async () => {
   return await authorModal.find({});
 };
 
+// get author by ID
+exports.getAuthorById = async (id) => {
+  return await authorModal.findById(id);
+};
+
 // update an author
 exports.updateAuhtor = async (id, author) => {
-  return await authorModal.findByIdAndUpdate(id, author);
+  return await authorModal.findByIdAndUpdate(id, author, { new: true });
 };
 
 exports.deleteAuthor = async (id) => {
