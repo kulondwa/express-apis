@@ -10,6 +10,11 @@ exports.getAllAuthors = async () => {
   return await authorModal.find({});
 };
 
+// get the authoor by name
+exports.findByName = async (name) => {
+  return await authorModal.find({ name: name });
+};
+
 // get author by ID
 exports.getAuthorById = async (id) => {
   return await authorModal.findById(id);

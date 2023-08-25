@@ -3,6 +3,7 @@ const authorServices = require("../services/author");
 //create an author
 exports.createAuthor = async (req, res) => {
   try {
+    const book = req.body;
     const author = await authorServices.createAuthor(req.body);
     res.json({ data: author, status: "success" });
   } catch (err) {
@@ -26,6 +27,18 @@ exports.getAllAuthors = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+// get author by name
+exports.getAuthorByName = async (req, res) => {
+  authorServices
+    .findByName(req.body.name)
+    .then((author) => {
+      res.json({ data: author, message: "success" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 // update an author

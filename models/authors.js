@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-const uuid = require("uuid");
+// const mongoose = require("mongoose");
+// var Schema = mongoose.Schema;
+// const uuid = require("uuid");
 
-const authorSchema = new Schema({
-  name: String,
-  age: Number,
-  email: String,
-  creatAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+// const authorSchema = new Schema({
+//   name: String,
+//   age: Number,
+//   email: String,
+//   creatAt: {
+//     type: Date,
+//     default: Date.now,
+//   },
+// });
 
-module.exports = mongoose.model("authors", authorSchema);
+// module.exports = mongoose.model("authors", authorSchema);

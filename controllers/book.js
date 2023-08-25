@@ -3,7 +3,9 @@ const booksServices = require("../services/books");
 //create a book
 exports.createBook = async (req, res) => {
   try {
-    const book = await booksServices.createBook(req.body);
+    const book = await (
+      await booksServices.createBook(req.body)
+    ).populate("author", { strictPopulate: false });
     res.json({ data: book, status: "success" });
   } catch (err) {
     res.status(500).json({ message: err.message });

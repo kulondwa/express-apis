@@ -2,6 +2,7 @@ const booksModal = require("../models/books");
 
 // create a book
 exports.createBook = async (book) => {
+  // book.populate("author");
   return await booksModal.create(book);
 };
 
