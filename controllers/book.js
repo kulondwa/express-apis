@@ -5,7 +5,7 @@ exports.createBook = async (req, res) => {
   try {
     const book = await (
       await booksServices.createBook(req.body)
-    ).populate("author", { strictPopulate: false });
+    ).populate("author");
     res.json({ data: book, status: "success" });
   } catch (err) {
     res.status(500).json({ message: err.message });
