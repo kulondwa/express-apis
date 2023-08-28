@@ -1,12 +1,23 @@
 const booksServices = require("../services/books");
+const AuthorServices = require("../services/author");
+const AuthorModal = require("../models/authors");
+const BookModal = require("../models/books");
 
 //create a book
 exports.createBook = async (req, res) => {
   try {
-    const book = await (
-      await booksServices.createBook(req.body)
-    ).populate("author");
-    res.json({ data: book, status: "success" });
+    const bookTosave = {
+      title: req.body.title,
+      topic: req.body.title,
+    };
+    const book = await booksServices
+      .createBook(bookTosave)
+      .then((Savedbook) => {
+        res.json({ data: Savedbook, status: "success" });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -71,4 +82,17 @@ exports.deleteBookById = async (req, res) => {
   } else {
     res.json({ message: "not found", status: 404 });
   }
+};
+
+exports.createBookByAuthor = async (req, res) => {
+  const found = AuthorModal.findOne({ name: req.body.author });
+  let bookToSave = new BookModal({
+    title: req.body.title,
+    topic: req.body.topic,
+    author: found._id,
+  });
+
+  bookToSave.save().then((book) => {
+    res.json({ data: book });
+  });
 };
