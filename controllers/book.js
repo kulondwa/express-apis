@@ -5,34 +5,25 @@ const BookModal = require("../models/books");
 
 //create a book
 exports.createBook = async (req, res) => {
-  try {
-    const bookTosave = {
-      title: req.body.title,
-      topic: req.body.title,
-    };
-    const book = await booksServices
-      .createBook(bookTosave)
-      .then((Savedbook) => {
-        res.json({ data: Savedbook, status: "success" });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  const author = await AuthorModal.findOne({ name: req.body.author });
+  if (!author) {
+    return res.status(404).json({ message: "Author not found" });
   }
+  const book = new BookModal({
+    title: req.body.title,
+    topic: req.body.topic,
+    author: author._id,
+  });
+  await book.save();
+  res.json(book);
 };
 
 //get all books
 exports.getAllBooks = async (req, res) => {
   try {
-    const books = booksServices.getAllBooks({});
+    const books = BookModal.find({}).populate("author");
     const booksArray = (await books).map((book) => {
-      return {
-        id: book.id,
-        title: book.title,
-        topic: book.topic,
-      };
+      return book;
     });
     res.json({ data: booksArray, status: "success" });
   } catch (err) {
@@ -55,16 +46,19 @@ exports.getBookByTitle = async (req, res) => {
 
 // update a book
 exports.updateBook = async (req, res) => {
-  if (booksServices.updateBook({ _id: req.body._id }, req.body)) {
-    const updatedBook = booksServices
-      .findById({ _id: req.body._id })
-      .then((book) => {
-        res.json({ data: book, status: "success" });
-      })
-      .catch((err) => {
-        return err;
-      });
+  const foundBook = BookModal.findById(req.body.id);
+  if (!foundBook) {
+    res.json({ message: "book not found", status: 404 });
   }
+  const Author = await AuthorModal.findOne({ name: req.body.author });
+  const newBook = new BookModal({
+    _id: req.body.id,
+    title: req.body.title,
+    topic: req.body.topic,
+    author: Author._id,
+  });
+  await BookModal.findByIdAndUpdate(req.body.id, newBook, { new: true });
+  res.json({ data: newBook, message: "item successfully updated" });
 };
 
 // delete a book
@@ -84,15 +78,16 @@ exports.deleteBookById = async (req, res) => {
   }
 };
 
-exports.createBookByAuthor = async (req, res) => {
-  const found = AuthorModal.findOne({ name: req.body.author });
-  let bookToSave = new BookModal({
-    title: req.body.title,
-    topic: req.body.topic,
-    author: found._id,
-  });
+// exports.createBookByAuthor = async (req, res) => {
+//   const found = AuthorModal.findOne({ name: req.body.author });
+//   let bookToSave = new BookModal({
+//     title: req.body.title,
+//     topic: req.body.topic,
+//   });
 
-  bookToSave.save().then((book) => {
-    res.json({ data: book });
-  });
-};
+//   bookToSave.populate("author", "_id");
+
+//   bookToSave.save().then((book) => {
+//     res.json({ data: book });
+//   });
+// };

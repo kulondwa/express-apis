@@ -12,6 +12,6 @@ router.route("/").get(getAllBooks).post(createBook);
 router.route("/").put(updateBook);
 router.route("").delete(deleteBookById);
 router.route("/book/title").get(getBookByTitle);
-router.route("/author").post(createBookByAuthor);
+// router.route("/author").post(createBookByAuthor);
 
 module.exports = router;

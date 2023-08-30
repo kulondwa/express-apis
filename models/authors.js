@@ -10,7 +10,6 @@ const authorSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  books: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
 });
 
 module.exports = mongoose.model("Author", authorSchema);

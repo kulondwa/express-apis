@@ -3,13 +3,15 @@ const AuthorModal = require("../models/authors");
 
 // create a book
 exports.createBook = async (book) => {
-  const foundAuthor = AuthorModal.findOne({ name: book.author });
-  const bookTosave = new booksModal({
-    title: book.title,
-    topic: book.title,
-    author: foundAuthor._id,
-  });
-  return await booksModal.create(bookTosave);
+  const foundAuthor = AuthorModal.find({ name: book.author });
+  if (foundAuthor) {
+    const bookTosave = new booksModal({
+      title: book.title,
+      topic: book.title,
+      author: foundAuthor._id,
+    });
+    console.log(bookTosave);
+  }
 };
 
 // get all books
